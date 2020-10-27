@@ -1,0 +1,39 @@
+{
+  "name": "script",
+  "license": "MIT",
+  "devDependencies": {
+    "@prisma/cli": "^2.9.0",
+    "@types/async-redis": "^1.1.1",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.7",
+    "@types/date-fns": "^2.6.0",
+    "@types/express": "^4.17.8",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.11.2",
+    "@types/socket.io": "^2.1.11",
+    "@types/yup": "^0.29.8",
+    "style-loader": "^2.0.0",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0-pre.63",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --respawn  ./app.ts",
+    "seed": "ts-node ./seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^2.9.0",
+    "async-redis": "^1.1.7",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "date-fns": "^2.16.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "redis": "^3.0.2",
+    "socket.io": "^2.3.0",
+    "yup": "^0.29.3"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}

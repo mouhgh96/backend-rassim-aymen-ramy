@@ -1,0 +1,61 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["connectOrCreate"]
+}
+
+model User {
+  id        String  @id 
+  password  String
+  firstName String
+  lastName  String
+  email     String
+  tel       String
+  function  String
+  img       String?
+  grade     Int     @default(0)
+  leaves    Leave[]
+  exits     Exit[]
+  notifications  String @default("[]")
+  tokens    Token[]
+}
+
+model Leave {
+  id          Int     @id @default(autoincrement())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  leaveDay    DateTime
+  duration    Int 
+  description String
+  state       Int      @default(0) 
+  motif       String?
+  destination String
+
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+model Exit {
+  id          Int      @id @default(autoincrement())
+  exitHour    Int
+  returnHour  Int
+  exitDay     DateTime
+  description String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  state       Int      @default(0) 
+  motif       String?
+  destination String
+
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model Token {
+  value       String  @id
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
