@@ -217,6 +217,7 @@ let LeavePutValidationMiddleWare = async (
       add(Date.now(), { days: 1 }),
       "le jour doit congé doit au moin commencé demain"
     ),
+    destination: Yup.string().trim("Veuillez entrer une destination"),
   });
 
   try {
@@ -286,6 +287,8 @@ LeavesRouter.put(
         duration,
       };
     }
+    console.log("data", req.body);
+
     let result = await req.db.leave.update({
       where: {
         id: +id,

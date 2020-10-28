@@ -1,4 +1,4 @@
-import { add, addDays } from "date-fns";
+import { add, addDays, isBefore } from "date-fns";
 import { Router, Response, Request, NextFunction } from "express";
 import * as Yup from "yup";
 import { IsAdminMiddleWare } from "../middelwares";
@@ -275,5 +275,76 @@ ExitsRouter.get("/:id", async (req, res, next) => {
     return;
   }
   res.send(exit);
+});
+
+ExitsRouter.put("/:id", async (req, res, next) => {
+  let { id } = req.params;
+
+  let exit = await req.db.exit.findOne({
+    where: {
+      id: +id,
+    },
+    select: {
+      id: true,
+      user: {
+        select: { id: true },
+      },
+      state: true,
+      exitDay: true,
+    },
+  });
+  if (!exit) {
+    res.status(404);
+    res.end();
+    return;
+  }
+  if (
+    req.userId !== exit.user.id ||
+    exit.state !== 0 ||
+    isBefore(exit.exitDay, new Date())
+  ) {
+    res.status(403);
+    res.end();
+    return;
+  }
+  let data = {};
+  if (req.body.exitDay) {
+    data = {
+      ...data,
+      exitDay: new Date(req.body.exitDay),
+    };
+  }
+  if (req.body.description) {
+    data = {
+      ...data,
+      description: req.body.description,
+    };
+  }
+  if (req.body.destination) {
+    data = {
+      ...data,
+      destination: req.body.destination,
+    };
+  }
+  if (req.body.exitHour) {
+    data = {
+      ...data,
+      exitHour: req.body.exitHour,
+    };
+  }
+  if (req.body.returnHour) {
+    data = {
+      ...data,
+      returnHour: req.body.returnHour,
+    };
+  }
+  console.log("modifcation", data);
+  let result = await req.db.exit.update({
+    where: {
+      id: +id,
+    },
+    data,
+  });
+  res.send(result);
 });
 export { ExitsRouter };
