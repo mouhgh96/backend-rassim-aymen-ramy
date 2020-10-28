@@ -15,3 +15,14 @@
 - socket.io (websocket implementation qui permet REAL TIME COMMUNICATION entre le client et le server)
 - yup (librerie qui permet la validation des inputs sur base de schema)
 - jsonwebtoken (pour la securité (authentification))
+
+### RUN
+
+```
+npm i
+npx prisma migrate save --experimental
+npx prisma migrate up --experimental
+npx prisma generate
+npm run dev
+
+```
